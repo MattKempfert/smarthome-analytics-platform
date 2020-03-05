@@ -1,12 +1,18 @@
 ---
 
-- hosts: all
-  become: yes
-  roles:
-  - { role: os-patching, tags: patching }
-
+- name: 'Base Setup'
+  hosts: all
   tasks:
-  - name: Congratulations!
-    debug:
-      msg:
+    - import_role:
+        name: OS-Patching
+      tags:
+        - all
+        - patching
+    - import_role:
+        name: Docker
+      tags:
+        - all
+        - docker
+    - debug:
+        msg:
         - "The distro is: {{ ansible_distribution|lower }} and the version name is: {{ ansible_distribution_release }}"

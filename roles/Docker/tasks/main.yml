@@ -1,0 +1,39 @@
+---
+
+- name: 'Step 1: Update the apt package index'
+  apt:
+    update_cache: yes
+
+- name: 'Step 2: Install packages to allow apt to use a repository over HTTPS:'
+  apt:
+    name:
+      - "apt-transport-https"
+      - 'ca-certificates'
+      - curl
+      - gnupg2
+      - software-properties-common
+    allow_unauthenticated: true
+    state: latest
+
+- name: 'Step 3: Add Docker’s official GPG key'
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: present
+  ignore_errors: true
+
+- name: 'Step 4: Add Docker apt repo'
+  shell: |
+    echo "deb [arch=armhf] https://download.docker.com/linux/{{ ansible_distribution|lower }} \
+    {{ ansible_distribution_release }} stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
+  become: true
+
+- name: 'Step 5: Install the latest version of Docker Engine - Community and containerd'
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: latest
+    update_cache: yes
