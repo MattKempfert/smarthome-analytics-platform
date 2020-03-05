@@ -1,0 +1,12 @@
+---
+- name: Restart influxdb
+  docker_container:
+    name: influxdb
+    image: influxdb:{{ influxdb_version }}
+    state: started
+    detach: yes
+    volumes:
+      - "/media/pi/raspberry-pi/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
+      - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"
+    ports:
+      - "8086:8086"

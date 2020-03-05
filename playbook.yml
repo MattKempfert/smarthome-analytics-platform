@@ -13,6 +13,11 @@
       tags:
         - all
         - docker
+    - import_role:
+        name:  InfluxDB
+      tags:
+        - all
+        - influxdb
     - debug:
         msg:
         - "The distro is: {{ ansible_distribution|lower }} and the version name is: {{ ansible_distribution_release }}"
