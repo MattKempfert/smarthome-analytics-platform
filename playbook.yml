@@ -4,17 +4,17 @@
   hosts: all
   tasks:
     - import_role:
-        name: OS-Patching
+        name: os_patching
       tags:
         - all
         - patching
     - import_role:
-        name: Docker
+        name: docker
       tags:
         - all
         - docker
     - import_role:
-        name:  InfluxDB
+        name: influxdb
       tags:
         - all
         - influxdb
