@@ -9,3 +9,19 @@ This repository consists of several role Ansible Playbooks used for installing a
 ```sh
 ansible-playbook --inventory hosts --private-key ~/.ssh/raspberry_pi playbook.yml
 ```
+
+## Development
+
+It's recommended to use a dedicated, virtual python environment when adding new features, fixing bugs, or in general doing any python development work. Use the following commands to initialize and activate a virtual environment.
+
+```zsh
+# Initialize virtual environment
+pyenv virtualenv 3.9.1 raspberrypi-base-ansible
+
+# Activate virtual environment
+pyenv activate raspberrypi-base-ansible
+pip install --upgrade pip
+
+# Install Ansible
+pip install ansible
+```
