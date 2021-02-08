@@ -1,52 +1,38 @@
 ---
-- name: Validate Docker is started
-  service:
-    name: 'docker'
-    state: started
-    enabled: yes
-
 - name: Create the InfluxDB directory
-  file:
+  ansible.builtin.file:
     path: /media/pi/raspberry-pi/influxdb
     state: directory
     owner: root
     group: root
 
 - name: Create the database directory
-  file:
+  ansible.builtin.file:
     path: /media/pi/raspberry-pi/influxdb/data
     state: directory
     owner: root
     group: root
 
 - name: Add the default configuration file - influxdb.conf
-  template:
-    src: "influxdb.conf.j2"
-    dest: "/media/pi/raspberry-pi/influxdb/influxdb.conf"
-
-- name: Get the current InfluxDB Docker image ID
-  command: docker images --format {%raw%}"{{ .ID }}"{%endraw%} --no-trunc influxdb:{{ influxdb_version }}
-  register: imageid
-  changed_when: imageid.rc != 0
+  ansible.builtin.template:
+    src: influxdb.conf.j2
+    dest: /media/pi/raspberry-pi/influxdb/influxdb.conf
 
 - name: Pull the influxdb:{{ influxdb_version }} Docker image
-  docker_image:
+  community.docker.docker_image:
     name: influxdb:{{ influxdb_version }}
     source: pull
-    force_source: yes
     state: present
-  register: new_image
-  changed_when: imageid.stdout != new_image.image.Id
-  notify: Restart influxdb
+  notify: Restart InfluxDB
 
-- name: Start the influxdb:{{ influxdb_version }} container
-  docker_container:
+- name: Start InfluxDB
+  community.docker.docker_container:
     name: influxdb
     image: influxdb:{{ influxdb_version }}
+    container_default_behavior: no_defaults
     state: started
-    detach: yes
     volumes:
       - "/media/pi/raspberry-pi/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
       - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"
-    ports:
+    published_ports:
       - "8086:8086"

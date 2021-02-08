@@ -1,0 +1,19 @@
+---
+- name: Validate Docker is started
+  ansible.builtin.service:
+    name: 'docker'
+    state: started
+
+- name: Mount storage
+  ansible.posix.mount:
+    src: UUID=ae4d940e-021b-4921-b50e-7e852b717bb1
+    path: /media/pi/raspberry-pi
+    fstype: ext4
+    opts: defaults,auto,users,rw,nofail
+    state: mounted
+
+# Configure InfluxDB
+- import_tasks: influxdb.yml
+  tags:
+    - telemetry
+    - influxdb
