@@ -2,3 +2,4 @@
 # Default variables
 
 influxdb_version: 1.7.9
+grafana_version: 7.4.0-ubuntu

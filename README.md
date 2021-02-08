@@ -4,6 +4,8 @@
 
 This repository consists of several role Ansible Playbooks used for installing and configuring software necessary for running a Raspberry Pi.
 
+List of ansible modules: https://docs.ansible.com/ansible/latest/collections/index_module.html
+
 ## Playbook execution
 
 ```sh
@@ -24,4 +26,10 @@ pip install --upgrade pip
 
 # Install Ansible
 pip install ansible
+
+# Install the ansible.posix collection for mounting devices
+ansible-galaxy collection install ansible.posix
+
+# Install the community.docker collection for managing Docker
+ansible-galaxy collection install community.docker
 ```
