@@ -15,11 +15,9 @@
 # Configure InfluxDB
 - import_tasks: influxdb.yml
   tags:
-    - telemetry
     - influxdb
 
 # Configure Grafana
 - import_tasks: grafana.yml
   tags:
-    - telemetry
     - grafana

@@ -19,6 +19,7 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
+    notify: Restart Grafana
 
 - name: Create the /etc/grafana/provisioning directory
   ansible.builtin.file:
@@ -74,20 +75,3 @@
     source: pull
     state: present
   notify: Restart Grafana
-
-- name: Start Grafana
-  community.docker.docker_container:
-    name: grafana
-    image: grafana/grafana:{{ grafana_version }}
-    container_default_behavior: no_defaults
-    state: started
-    volumes:
-      - "/media/pi/raspberry-pi/grafana/etc_grafana:/etc/grafana:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning:/etc/grafana/provisioning:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/notifiers:/etc/grafana/provisioning/notifiers:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/plugins:/etc/grafana/provisioning/plugins:rw"
-      - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana:rw"
-    published_ports:
-      - "3000:3000"
