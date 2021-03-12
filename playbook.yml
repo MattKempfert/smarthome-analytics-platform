@@ -9,7 +9,7 @@
         - all
         - patching
     - import_role:
-        name: docker
+        name: Docker
       tags:
         - all
         - docker
