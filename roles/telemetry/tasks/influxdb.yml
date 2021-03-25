@@ -31,6 +31,7 @@
     image: influxdb:{{ influxdb_version }}
     container_default_behavior: no_defaults
     state: started
+    network_mode: monitoring
     volumes:
       - "/media/pi/raspberry-pi/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
       - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"

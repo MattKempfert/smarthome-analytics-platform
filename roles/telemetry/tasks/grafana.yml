@@ -82,6 +82,7 @@
     image: grafana/grafana:{{ grafana_version }}
     container_default_behavior: no_defaults
     state: started
+    network_mode: monitoring
     volumes:
       - "/media/pi/raspberry-pi/grafana/etc_grafana:/etc/grafana:rw"
       - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning:/etc/grafana/provisioning:rw"

@@ -4,6 +4,10 @@
     name: 'docker'
     state: started
 
+- name: Configure monitoring network
+  community.docker.docker_network:
+    name: monitoring
+
 - name: Mount storage
   ansible.posix.mount:
     src: UUID=ae4d940e-021b-4921-b50e-7e852b717bb1
