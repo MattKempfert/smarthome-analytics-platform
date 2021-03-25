@@ -1,5 +1,6 @@
 ---
 # Default variables
 
-influxdb_version: 1.7.9
-grafana_version: 7.4.3-ubuntu
+influxdb_version: 1.8.4
+grafana_version: 7.4.5-ubuntu
+telegraf_version: 1.18.0

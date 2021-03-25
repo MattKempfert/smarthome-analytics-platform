@@ -25,3 +25,8 @@
 - import_tasks: grafana.yml
   tags:
     - grafana
+
+# Configure Telegraf
+- import_tasks: telegraf.yml
+  tags:
+    - telegraf

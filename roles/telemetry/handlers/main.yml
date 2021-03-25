@@ -5,6 +5,8 @@
     image: influxdb:{{ influxdb_version }}
     container_default_behavior: no_defaults
     state: started
+    restart: yes
+    network_mode: monitoring
     volumes:
       - "/media/pi/raspberry-pi/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
       - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"
@@ -17,6 +19,8 @@
     image: grafana/grafana:{{ grafana_version }}
     container_default_behavior: no_defaults
     state: started
+    restart: yes
+    network_mode: monitoring
     volumes:
       - "/media/pi/raspberry-pi/grafana/etc_grafana:/etc/grafana:rw"
       - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning:/etc/grafana/provisioning:rw"
@@ -27,3 +31,15 @@
       - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana:rw"
     published_ports:
       - "3000:3000"
+
+- name: Restart Telegraf
+  community.docker.docker_container:
+    name: telegraf
+    image: telegraf:{{ telegraf_version }}
+    container_default_behavior: no_defaults
+    state: started
+    restart: yes
+    network_mode: monitoring
+    volumes:
+      - "/media/pi/raspberry-pi/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock"
