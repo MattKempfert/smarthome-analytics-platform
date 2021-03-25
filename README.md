@@ -9,7 +9,11 @@ List of ansible modules: https://docs.ansible.com/ansible/latest/collections/ind
 ## Playbook execution
 
 ```sh
-ansible-playbook --inventory hosts --private-key ~/.ssh/raspberry_pi playbook.yml
+# Patch the OS
+ansible-playbook --inventory hosts --private-key ~/.ssh/raspberry_pi --tags patching playbook.yml
+
+# Configure telemetry
+ansible-playbook --inventory hosts --private-key ~/.ssh/raspberry_pi --tags telemetry playbook.yml
 ```
 
 ## Development
@@ -25,7 +29,7 @@ pyenv activate raspberrypi-base-ansible
 pip install --upgrade pip
 
 # Install Ansible
-pip install ansible
+pip install -r requirements.txt
 
 # Install the ansible.posix collection for mounting devices
 ansible-galaxy collection install ansible.posix
