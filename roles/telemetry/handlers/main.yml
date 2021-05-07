@@ -12,6 +12,7 @@
       - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"
     published_ports:
       - "8086:8086"
+      - "8088:8088"
 
 - name: Restart Grafana
   community.docker.docker_container:
