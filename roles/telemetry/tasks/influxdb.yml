@@ -3,20 +3,21 @@
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/influxdb
     state: directory
-    owner: root
-    group: root
 
-- name: Create the database directory
+- name: Create the settings directory (/etc/influxdb)
   ansible.builtin.file:
-    path: /media/pi/raspberry-pi/influxdb/data
+    path: /media/pi/raspberry-pi/influxdb/etc_influxdb
     state: directory
-    owner: root
-    group: root
 
 - name: Add the default configuration file - influxdb.conf
   ansible.builtin.template:
     src: influxdb.conf.j2
-    dest: /media/pi/raspberry-pi/influxdb/influxdb.conf
+    dest: /media/pi/raspberry-pi/influxdb/etc_influxdb/influxdb.conf
+
+- name: Create the data directory (/var/lib/influxdb)
+  ansible.builtin.file:
+    path: /media/pi/raspberry-pi/influxdb/var_lib_influxdb
+    state: directory
 
 - name: Pull the influxdb:{{ influxdb_version }} Docker image
   community.docker.docker_image:
@@ -33,8 +34,8 @@
     state: started
     network_mode: monitoring
     volumes:
-      - "/media/pi/raspberry-pi/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
-      - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"
+      - "/media/pi/raspberry-pi/influxdb/etc_influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
+      - "/media/pi/raspberry-pi/influxdb/var_lib_influxdb:/var/lib/influxdb"
     published_ports:
       - "8086:8086"
       - "8088:8088"

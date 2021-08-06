@@ -10,7 +10,7 @@ List of ansible modules: https://docs.ansible.com/ansible/latest/collections/ind
 
 ```sh
 # Patch the OS
-ansible-playbook --inventory hosts --private-key ~/.ssh/raspberry_pi --tags patching playbook.yml
+ansible-playbook --inventory hosts.yaml --private-key ~/.ssh/raspberry_pi --tags patching playbook.yml
 
 # Configure telemetry
 ansible-playbook --inventory hosts --private-key ~/.ssh/raspberry_pi --tags telemetry playbook.yml

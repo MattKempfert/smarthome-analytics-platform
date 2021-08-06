@@ -4,70 +4,20 @@
     path: /media/pi/raspberry-pi/grafana
     state: directory
 
-- name: Create the /etc/grafana directory
+- name: Create the settings directory (/etc/grafana)
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/grafana/etc_grafana
     state: directory
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
 
 - name: Add the default configuration file - grafana.ini
   ansible.builtin.template:
     src: grafana.ini.j2
     dest: /media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    notify: Restart Grafana
 
-- name: Create the /etc/grafana/provisioning directory
-  ansible.builtin.file:
-    path: /media/pi/raspberry-pi/grafana/etc_grafana/provisioning
-    state: directory
-    owner: '472'
-    group: root
-    mode: u=rwx,g=rwx,o=rwx
-
-- name: Create the /etc/grafana/provisioning/dashboards directory
-  ansible.builtin.file:
-    path: /media/pi/raspberry-pi/grafana/etc_grafana/provisioning/dashboards
-    state: directory
-    owner: '472'
-    group: root
-    mode: u=rwx,g=rwx,o=rwx
-
-- name: Create the /etc/grafana/provisioning/datasources directory
-  ansible.builtin.file:
-    path: /media/pi/raspberry-pi/grafana/etc_grafana/provisioning/datasources
-    state: directory
-    owner: '472'
-    group: root
-    mode: u=rwx,g=rwx,o=rwx
-
-- name: Create the /etc/grafana/provisioning/notifiers directory
-  ansible.builtin.file:
-    path: /media/pi/raspberry-pi/grafana/etc_grafana/provisioning/notifiers
-    state: directory
-    owner: '472'
-    group: root
-    mode: u=rwx,g=rwx,o=rwx
-
-- name: Create the /etc/grafana/provisioning/plugins directory
-  ansible.builtin.file:
-    path: /media/pi/raspberry-pi/grafana/etc_grafana/provisioning/plugins
-    state: directory
-    owner: '472'
-    group: root
-    mode: u=rwx,g=rwx,o=rwx
-
-- name: Create the /var/lib/grafana directory
+- name: Create the data directory (/var/lib/grafana)
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/grafana/var_lib_grafana
     state: directory
-    owner: '472'
-    group: root
-    mode: u=rwx,g=rwx,o=rwx
 
 - name: Pull the grafana/grafana:{{ grafana_version }} Docker image
   community.docker.docker_image:
@@ -82,14 +32,11 @@
     image: grafana/grafana:{{ grafana_version }}
     container_default_behavior: no_defaults
     state: started
+    user: root
+    groups: root
     network_mode: monitoring
     volumes:
-      - "/media/pi/raspberry-pi/grafana/etc_grafana:/etc/grafana:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning:/etc/grafana/provisioning:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/notifiers:/etc/grafana/provisioning/notifiers:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/plugins:/etc/grafana/provisioning/plugins:rw"
-      - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana:rw"
+      - "/media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini"
+      - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana"
     published_ports:
       - "3000:3000"

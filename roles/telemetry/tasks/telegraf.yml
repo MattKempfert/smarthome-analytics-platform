@@ -4,17 +4,21 @@
     path: /media/pi/raspberry-pi/telegraf
     state: directory
 
+- name: Create the settings directory (/etc/telegraf)
+  ansible.builtin.file:
+    path: /media/pi/raspberry-pi/telegraf/etc_telegraf
+    state: directory
+
 - name: Add the default configuration file - telegraf.conf
   ansible.builtin.template:
     src: telegraf.conf.j2
-    dest: /media/pi/raspberry-pi/telegraf/telegraf.conf
-  notify: Restart Telegraf
+    dest: /media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf
 
-- name: Add the telegraf user to the docker group
-  user:
-    name: telegraf
-    group: docker
-  notify: Restart Telegraf
+# - name: Add the telegraf user to the docker group
+#   user:
+#     name: telegraf
+#     group: docker
+#   notify: Restart Telegraf
 
 - name: Pull the telegraf:{{ telegraf_version }} Docker image
   community.docker.docker_image:
@@ -31,5 +35,5 @@
     state: started
     network_mode: monitoring
     volumes:
-      - "/media/pi/raspberry-pi/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
       - "/var/run/docker.sock:/var/run/docker.sock"
