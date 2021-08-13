@@ -5,11 +5,10 @@
     image: influxdb:{{ influxdb_version }}
     container_default_behavior: no_defaults
     state: started
-    restart: yes
     network_mode: monitoring
     volumes:
-      - "/media/pi/raspberry-pi/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
-      - "/media/pi/raspberry-pi/influxdb/data:/var/lib/influxdb"
+      - "/media/pi/raspberry-pi/influxdb/etc_influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
+      - "/media/pi/raspberry-pi/influxdb/var_lib_influxdb:/var/lib/influxdb"
     published_ports:
       - "8086:8086"
       - "8088:8088"
@@ -20,16 +19,12 @@
     image: grafana/grafana:{{ grafana_version }}
     container_default_behavior: no_defaults
     state: started
-    restart: yes
+    user: root
+    groups: root
     network_mode: monitoring
     volumes:
-      - "/media/pi/raspberry-pi/grafana/etc_grafana:/etc/grafana:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning:/etc/grafana/provisioning:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/notifiers:/etc/grafana/provisioning/notifiers:rw"
-      - "/media/pi/raspberry-pi/grafana/etc_grafana/provisioning/plugins:/etc/grafana/provisioning/plugins:rw"
-      - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana:rw"
+      - "/media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini"
+      - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana"
     published_ports:
       - "3000:3000"
 
@@ -39,8 +34,7 @@
     image: telegraf:{{ telegraf_version }}
     container_default_behavior: no_defaults
     state: started
-    restart: yes
     network_mode: monitoring
     volumes:
-      - "/media/pi/raspberry-pi/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
       - "/var/run/docker.sock:/var/run/docker.sock"
