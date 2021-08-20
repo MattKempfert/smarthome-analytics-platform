@@ -1,0 +1,14 @@
+---
+- name: Restart InfluxDB
+  community.docker.docker_container:
+    name: influxdb
+    image: influxdb:{{ influxdb_version }}
+    container_default_behavior: no_defaults
+    state: started
+    network_mode: monitoring
+    volumes:
+      - "/media/pi/raspberry-pi/influxdb/etc_influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
+      - "/media/pi/raspberry-pi/influxdb/var_lib_influxdb:/var/lib/influxdb"
+    published_ports:
+      - "8086:8086"
+      - "8088:8088"

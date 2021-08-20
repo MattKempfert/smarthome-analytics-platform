@@ -1,0 +1,11 @@
+---
+- name: Restart Telegraf
+  community.docker.docker_container:
+    name: telegraf
+    image: telegraf:{{ telegraf_version }}
+    container_default_behavior: no_defaults
+    state: started
+    network_mode: monitoring
+    volumes:
+      - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock"

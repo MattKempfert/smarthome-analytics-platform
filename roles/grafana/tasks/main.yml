@@ -3,21 +3,33 @@
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/grafana
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Create the settings directory (/etc/grafana)
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/grafana/etc_grafana
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Add the default configuration file - grafana.ini
-  ansible.builtin.template:
-    src: grafana.ini.j2
+  ansible.builtin.copy:
+    src: grafana.ini
     dest: /media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Create the data directory (/var/lib/grafana)
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/grafana/var_lib_grafana
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Pull the grafana/grafana:{{ grafana_version }} Docker image
   community.docker.docker_image:

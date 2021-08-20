@@ -3,22 +3,39 @@
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/telegraf
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Create the settings directory (/etc/telegraf)
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/telegraf/etc_telegraf
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Add the default configuration file - telegraf.conf
-  ansible.builtin.template:
-    src: telegraf.conf.j2
+  ansible.builtin.copy:
+    src: telegraf.conf
     dest: /media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf
+    owner: root
+    group: root
+    mode: '0644'
 
-# - name: Add the telegraf user to the docker group
-#   user:
-#     name: telegraf
-#     group: docker
-#   notify: Restart Telegraf
+# Allows telegraf to gather metrics from the Docker engine
+- name: Add the telegraf user to the docker group
+  ansible.builtin.user:
+    name: telegraf
+    group: docker
+  notify: Restart Telegraf
+
+# Allows telegraf to gather GPU temperature
+- name: Add the telegraf user to the video group
+  ansible.builtin.user:
+    name: telegraf
+    group: video
+  notify: Restart Telegraf
 
 - name: Pull the telegraf:{{ telegraf_version }} Docker image
   community.docker.docker_image:

@@ -1,0 +1,14 @@
+- name: Restart Grafana
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana:{{ grafana_version }}
+    container_default_behavior: no_defaults
+    state: started
+    user: root
+    groups: root
+    network_mode: monitoring
+    volumes:
+      - "/media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini"
+      - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana"
+    published_ports:
+      - "3000:3000"

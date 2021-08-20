@@ -1,23 +1,34 @@
 ---
-
-- name: 'Base Setup'
+- name: Run all playbooks
   hosts: all
-  tasks:
-    - import_role:
-        name: os_patching
-      tags:
-        - all
-        - patching
-    - import_role:
-        name: Docker
-      tags:
-        - all
-        - docker
-    - import_role:
-        name: telemetry
-      tags:
-        - all
-        - telemetry
-    - debug:
-        msg:
-        - "The distro is: {{ ansible_distribution|lower }} and the version name is: {{ ansible_distribution_release }}"
+  tags:
+    - all
+  roles:
+    - setup
+    - telegraf
+    - influxdb
+    - grafana
+- name: Run setup
+  hosts: all
+  tags:
+    - setup
+  roles:
+    - setup
+- name: Setup Telegraf
+  hosts: all
+  tags:
+    - telegraf
+  roles:
+    - telegraf
+- name: Setup InfluxDB
+  hosts: all
+  tags:
+    - influxdb
+  roles:
+    - influxdb
+- name: Setup Grafana
+  hosts: all
+  tags:
+    - grafana
+  roles:
+    - grafana

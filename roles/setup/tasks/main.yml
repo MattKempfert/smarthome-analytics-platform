@@ -1,11 +1,8 @@
 ---
-- name: Update the system's package list
-  apt:
-    update_cache: yes
-
 - name: Installing additional required packages
-  apt:
-    pkg:
+  ansible.builtin.apt:
+    update_cache: yes
+    name:
       - python3
       - python3-pip
       - python3-docker
@@ -26,18 +23,3 @@
     fstype: ext4
     opts: defaults,auto,users,rw,nofail
     state: mounted
-
-# Configure InfluxDB
-- import_tasks: influxdb.yml
-  tags:
-    - influxdb
-
-# Configure Grafana
-- import_tasks: grafana.yml
-  tags:
-    - grafana
-
-# Configure Telegraf
-- import_tasks: telegraf.yml
-  tags:
-    - telegraf
