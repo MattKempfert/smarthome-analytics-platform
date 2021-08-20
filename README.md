@@ -1,20 +1,10 @@
-# Ansible Playbook for configuring a RaspberryPi
+# Ansible Playbook containing roles configuring a RaspberryPi
 
 [![Build Status](https://cloud.drone.io/api/badges/MattKempfert/raspberrypi-base-ansible/status.svg)](https://cloud.drone.io/MattKempfert/raspberrypi-base-ansible)
 
 This repository consists of several role Ansible Playbooks used for installing and configuring software necessary for running a Raspberry Pi.
 
-List of ansible modules: https://docs.ansible.com/ansible/latest/collections/index_module.html
-
-## Playbook execution
-
-```sh
-# Patch the OS
-ansible-playbook --inventory hosts.yml --private-key ~/.ssh/raspberry_pi --tags patching playbook.yml
-
-# Configure telemetry
-ansible-playbook --inventory hosts.yml --private-key ~/.ssh/raspberry_pi --tags telemetry playbook.yml
-```
+List of ansible modules: [https://docs.ansible.com/ansible/latest/collections/index_module.html]
 
 ## Development
 
@@ -28,12 +18,22 @@ pyenv virtualenv 3.9.1 raspberrypi-base-ansible
 pyenv activate raspberrypi-base-ansible
 pip install --upgrade pip
 
-# Install Ansible
-pip install -r requirements.txt
+# Install Ansible and required additional collections
+make
+```
 
-# Install the ansible.posix collection for mounting devices
-ansible-galaxy collection install ansible.posix
+## Playbook execution
 
-# Install the community.docker collection for managing Docker
-ansible-galaxy collection install community.docker
+```sh
+# Configure and run Telegraf
+make telegraf
+
+# Configure and run InfluxDB
+make influxdb
+
+# Configure and run Grafana
+make grafana
+
+# Configure and run Telegraf
+make telegraf
 ```

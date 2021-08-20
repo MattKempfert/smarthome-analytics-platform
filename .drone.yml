@@ -3,11 +3,4 @@ pipeline:
   ansible-syntax-check:
     image: python:3.9.1
     commands:
-      - pip install ansible
-      - ansible-playbook --inventory hosts --syntax-check -v playbook.yml
-
-  ansible-lint:
-    image: python:3.9.1
-    commands:
-      - pip install ansible-lint
-      - ansible-lint playbook.yml
+      - make
