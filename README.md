@@ -16,7 +16,6 @@ pyenv virtualenv 3.9.1 raspberrypi-base-ansible
 
 # Activate virtual environment
 pyenv activate raspberrypi-base-ansible
-pip install --upgrade pip
 
 # Install Ansible and required additional collections
 make
