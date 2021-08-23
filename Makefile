@@ -2,7 +2,7 @@ default: build test
 
 build:
     # Upgrade pip
-	pip3 install --upgrade pip
+	pip install --upgrade pip
 
     # Install Ansible
 	pip install -r requirements.txt
