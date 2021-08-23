@@ -34,6 +34,6 @@ make influxdb
 # Configure and run Grafana
 make grafana
 
-# Configure and run Telegraf
-make telegraf
+# Configure and run Telegraf, InfluxDB, and Grafana
+make all
 ```
