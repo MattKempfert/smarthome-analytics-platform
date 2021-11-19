@@ -23,20 +23,6 @@
     group: root
     mode: '0644'
 
-# Allows telegraf to gather metrics from the Docker engine
-- name: Add the telegraf user to the docker group
-  ansible.builtin.user:
-    name: telegraf
-    group: docker
-  notify: Restart Telegraf
-
-# Allows telegraf to gather GPU temperature
-- name: Add the telegraf user to the video group
-  ansible.builtin.user:
-    name: telegraf
-    group: video
-  notify: Restart Telegraf
-
 - name: Pull the telegraf:{{ telegraf_version }} Docker image
   community.docker.docker_image:
     name: telegraf:{{ telegraf_version }}
@@ -53,4 +39,3 @@
     network_mode: monitoring
     volumes:
       - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
-      - "/var/run/docker.sock:/var/run/docker.sock"
