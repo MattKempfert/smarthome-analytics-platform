@@ -1,6 +1,6 @@
 # Smart Home Analytics Platform
 
-[![Build Status](https://cloud.drone.io/api/badges/MattKempfert/smarthome-analytics-platform/status.svg)](https://cloud.drone.io/MattKempfert/smarthome-analytics-platform)
+[![Syntax Linting](https://github.com/MattKempfert/smarthome-analytics-platform/actions/workflows/linting.yml/badge.svg)](https://github.com/MattKempfert/smarthome-analytics-platform/actions/workflows/linting.yml)
 
 This repository consists of several role Ansible Playbooks used for configuring and running InfluxDB, Grafana, and Telegraf in Docker on a Raspberry Pi. There are a few prerequesites and assumptions made before this playbook will run through successfully. This playbook assumes:
 

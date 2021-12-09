@@ -1,6 +1,0 @@
----
-pipeline:
-  ansible-syntax-check:
-    image: python:3.9.1
-    commands:
-      - make
