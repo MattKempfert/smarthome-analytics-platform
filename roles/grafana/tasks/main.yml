@@ -1,5 +1,5 @@
 ---
-- name: Create the InfluxDB directory
+- name: Create the Grafana directory
   ansible.builtin.file:
     path: /media/pi/raspberry-pi/grafana
     state: directory
@@ -16,12 +16,13 @@
     mode: '0755'
 
 - name: Add the default configuration file - grafana.ini
-  ansible.builtin.copy:
-    src: grafana.ini
+  ansible.builtin.template:
+    src: grafana.ini.j2
     dest: /media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini
     owner: root
     group: root
     mode: '0644'
+  notify: Restart Grafana
 
 - name: Create the data directory (/var/lib/grafana)
   ansible.builtin.file:
@@ -47,6 +48,8 @@
     user: root
     groups: root
     network_mode: monitoring
+    memory: 256m
+    cpus: .25
     volumes:
       - "/media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini"
       - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana"
