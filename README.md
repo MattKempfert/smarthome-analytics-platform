@@ -13,7 +13,7 @@ It's recommended to use a dedicated, virtual python environment when adding new 
 
 ```zsh
 # Initialize virtual environment
-pyenv virtualenv 3.9.6 smarthome-analytics-platform
+pyenv virtualenv 3.10.2 smarthome-analytics-platform
 
 # Activate virtual environment
 pyenv activate smarthome-analytics-platform
