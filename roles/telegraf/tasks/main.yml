@@ -16,12 +16,13 @@
     mode: '0755'
 
 - name: Add the default configuration file - telegraf.conf
-  ansible.builtin.copy:
-    src: telegraf.conf
+  ansible.builtin.template:
+    src: telegraf.conf.j2
     dest: /media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf
     owner: root
     group: root
     mode: '0644'
+  notify: Restart Telegraf
 
 - name: Pull the telegraf:{{ telegraf_version }} Docker image
   community.docker.docker_image:
@@ -37,5 +38,7 @@
     container_default_behavior: no_defaults
     state: started
     network_mode: monitoring
+    memory: 128m
+    cpus: .25
     volumes:
       - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"

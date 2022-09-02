@@ -6,5 +6,7 @@
     container_default_behavior: no_defaults
     state: started
     network_mode: monitoring
+    memory: 128m
+    cpus: .25
     volumes:
       - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
