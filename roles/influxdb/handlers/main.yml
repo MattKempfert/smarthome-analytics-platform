@@ -6,6 +6,8 @@
     container_default_behavior: no_defaults
     state: started
     network_mode: monitoring
+    memory: 512m
+    cpus: .25
     volumes:
       - "/media/pi/raspberry-pi/influxdb/etc_influxdb2/config.yml:/etc/influxdb2/config.yml"
       - "/media/pi/raspberry-pi/influxdb/var_lib_influxdb2:/var/lib/influxdb2"

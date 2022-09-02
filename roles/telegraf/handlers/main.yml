@@ -3,8 +3,15 @@
   community.docker.docker_container:
     name: telegraf
     image: telegraf:{{ telegraf_version }}
-    container_default_behavior: no_defaults
     state: started
     network_mode: monitoring
+    memory: 128m
+    cpus: .25
+    user: telegraf:{{ docker_socket_group_id.stdout }}
+    env:
+      HOST_PROC: '/hostfs/proc'
+      HOST_MOUNT_PREFIX: '/hostfs'
     volumes:
       - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/:/hostfs:ro"

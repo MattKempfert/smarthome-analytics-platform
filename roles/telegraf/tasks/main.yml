@@ -16,12 +16,13 @@
     mode: '0755'
 
 - name: Add the default configuration file - telegraf.conf
-  ansible.builtin.copy:
-    src: telegraf.conf
+  ansible.builtin.template:
+    src: telegraf.conf.j2
     dest: /media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf
     owner: root
     group: root
     mode: '0644'
+  notify: Restart Telegraf
 
 - name: Pull the telegraf:{{ telegraf_version }} Docker image
   community.docker.docker_image:
@@ -30,12 +31,23 @@
     state: present
   notify: Restart Telegraf
 
+- name: Determine group id ownership of /var/run/docker.sock
+  ansible.builtin.command: stat -c '%g' /var/run/docker.sock
+  register: docker_socket_group_id
+
 - name: Start Telegraf
   community.docker.docker_container:
     name: telegraf
     image: telegraf:{{ telegraf_version }}
-    container_default_behavior: no_defaults
     state: started
     network_mode: monitoring
+    memory: 128m
+    cpus: .25
+    user: telegraf:{{ docker_socket_group_id.stdout }}
+    env:
+      HOST_PROC: '/hostfs/proc'
+      HOST_MOUNT_PREFIX: '/hostfs'
     volumes:
       - "/media/pi/raspberry-pi/telegraf/etc_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/:/hostfs:ro"
