@@ -16,12 +16,13 @@
     mode: '0755'
 
 - name: Add the default configuration file - config.yml
-  ansible.builtin.copy:
-    src: config.yml
+  ansible.builtin.template:
+    src: config.yml.j2
     dest: /media/pi/raspberry-pi/influxdb/etc_influxdb2/config.yml
     owner: root
     group: root
     mode: '0644'
+  notify: Restart InfluxDB
 
 - name: Create the data directory (/var/lib/influxdb2)
   ansible.builtin.file:
@@ -45,6 +46,8 @@
     container_default_behavior: no_defaults
     state: started
     network_mode: monitoring
+    memory: 512m
+    cpus: .25
     volumes:
       - "/media/pi/raspberry-pi/influxdb/etc_influxdb2/config.yml:/etc/influxdb2/config.yml"
       - "/media/pi/raspberry-pi/influxdb/var_lib_influxdb2:/var/lib/influxdb2"
