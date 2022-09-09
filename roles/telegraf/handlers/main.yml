@@ -6,7 +6,7 @@
     state: started
     network_mode: monitoring
     memory: 128m
-    cpus: .25
+    cpus: .2
     user: telegraf:{{ docker_socket_group_id.stdout }}
     env:
       HOST_PROC: '/hostfs/proc'

@@ -48,8 +48,8 @@
     user: root
     groups: root
     network_mode: monitoring
-    memory: 256m
-    cpus: .25
+    memory: 128m
+    cpus: .2
     volumes:
       - "/media/pi/raspberry-pi/grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini"
       - "/media/pi/raspberry-pi/grafana/var_lib_grafana:/var/lib/grafana"
