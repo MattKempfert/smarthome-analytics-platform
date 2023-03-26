@@ -32,7 +32,7 @@
     group: root
     mode: '0755'
 
-- name: Pull the grafana/grafana:{{ grafana_version }} Docker image
+- name: Pull the Docker image grafana/grafana:{{ grafana_version }}
   community.docker.docker_image:
     name: grafana/grafana:{{ grafana_version }}
     source: pull
