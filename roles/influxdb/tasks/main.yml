@@ -32,7 +32,7 @@
     group: root
     mode: '0755'
 
-- name: Pull the influxdb:{{ influxdb_version }} Docker image
+- name: Pull the Docker image influxdb:{{ influxdb_version }}
   community.docker.docker_image:
     name: influxdb:{{ influxdb_version }}
     source: pull

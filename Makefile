@@ -1,19 +1,13 @@
-default: build test
+default: install test
 
-build:
+install:
     # Upgrade pip
 	pip install --upgrade pip
 
     # Install Ansible
 	pip install -r requirements.txt
 
-    # Install the ansible.posix collection for mounting devices
-	ansible-galaxy collection install ansible.posix
-
-    # Install the community.docker collection for managing Docker
-	ansible-galaxy collection install community.docker
-
-test: build
+test: install
     # Install testing packages
 	pip install -r requirements-test.txt
 

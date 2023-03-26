@@ -24,7 +24,7 @@
     mode: '0644'
   notify: Restart Telegraf
 
-- name: Pull the telegraf:{{ telegraf_version }} Docker image
+- name: Pull the Docker image telegraf:{{ telegraf_version }}
   community.docker.docker_image:
     name: telegraf:{{ telegraf_version }}
     source: pull
