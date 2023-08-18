@@ -8,24 +8,28 @@
     - telegraf
     - influxdb
     - grafana
+
 - name: Run setup
   hosts: all
   tags:
     - setup
   roles:
     - setup
+
 - name: Setup Telegraf
   hosts: all
   tags:
     - telegraf
   roles:
     - telegraf
+
 - name: Setup InfluxDB
   hosts: all
   tags:
     - influxdb
   roles:
     - influxdb
+
 - name: Setup Grafana
   hosts: all
   tags:
